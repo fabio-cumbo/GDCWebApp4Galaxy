@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="python" version="2.7.10">
+        <repository changeset_revision="0339c4a9b87b" name="package_python_2_7_10" owner="iuc" toolshed="https://toolshed.g2.bx.psu.edu" />
+    </package>
+    <package name="galaxy_json_data_source" version="1.0.0">
+        <repository changeset_revision="5ea54764a6b9" name="package_galaxy_json_data_source" owner="iuc" toolshed="https://toolshed.g2.bx.psu.edu" />
+    </package>
+</tool_dependency>
