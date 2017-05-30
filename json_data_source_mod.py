@@ -105,6 +105,26 @@ def metadata_to_json( dataset_id, metadata, filename, ds_type='dataset', primary
     return "%s\n" % json.dumps( meta_dict )
 
 
+def walk_on_archive(target_output_filename, check_ext, archive_name, appdata_path):
+    archive_name = archive_name.replace("_", "-").replace(".", "-")
+    with tarfile.open( target_output_filename, check_ext ) as tf:
+        for entry in tf:
+            if entry.isfile():
+                fileobj = tf.extractfile( entry )
+                # reserve the underscore for the collection searator
+                filename = os.path.basename( entry.name ).replace("_", "-")
+                extension = splitext( filename )[1]
+                # pattern: (?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)
+                if (len(extension) > 0):
+                    filename = (filename[0:len(filename)-(len(extension)+1)]).replace(".", "-") + "." + extension
+                else:
+                    extension = "auto"
+                filename_with_collection_prefix = archive_name + "_" + filename
+                target_entry_output_filename = os.path.join(appdata_path, filename_with_collection_prefix)
+                store_file_from_archive( fileobj, target_entry_output_filename )
+    return True
+
+
 def download_files_and_write_metadata(query_item, json_params, output_base_path, metadata_parameter_file, primary, appdata_path, options, args):
     """ Main work function that operates on the JSON representation of
     one dataset and its metadata. Returns True.
@@ -114,62 +134,48 @@ def download_files_and_write_metadata(query_item, json_params, output_base_path,
         ext, out_data_name, \
         hda_id, dataset_id = set_up_config_values(json_params)
     extension = query_item.get( 'extension' )
-    #filename = query_item.get( 'url' )
+    url = query_item.get( 'url' )
     filename = query_item.get( 'name' )
+
+    check_ext = ""
+    if ( url.endswith( "gz" ) ):
+        check_ext = "r:gz"
+    elif ( url.endswith( "bz2" ) ):
+        check_ext = "r:bz2"
+    elif ( url.endswith( "tar" ) ):
+        check_ext = "r:"
+    isArchive = bool( check_ext and check_ext.strip() )
+
     extra_data = query_item.get( 'extra_data', None )
     if primary:
         filename = ''.join( c in VALID_CHARS and c or '-' for c in filename )
         name = construct_multi_filename( hda_id, filename, extension )
         target_output_filename = os.path.normpath( '/'.join( [ output_base_path, name ] ) )
-        metadata_parameter_file.write( metadata_to_json( dataset_id, query_item,
-                                                         target_output_filename,
-                                                         ds_type='new_primary_dataset',
-                                                         primary=primary) )
+        if isArchive is False:
+            metadata_parameter_file.write( metadata_to_json( dataset_id, query_item,
+                                                             target_output_filename,
+                                                             ds_type='new_primary_dataset',
+                                                             primary=primary) )
     else:
         target_output_filename = output_filename
-        metadata_parameter_file.write( metadata_to_json( dataset_id, query_item,
-                                                         target_output_filename,
-                                                         ds_type='dataset',
-                                                         primary=primary) )
+        if isArchive is False:
+            metadata_parameter_file.write( metadata_to_json( dataset_id, query_item,
+                                                             target_output_filename,
+                                                             ds_type='dataset',
+                                                             primary=primary) )
     
-    download_from_query( query_item, target_output_filename )
+    if isArchive is False:
+        download_from_query( query_item, target_output_filename )
+    else:
+        target_output_path = os.path.join(appdata_path, filename)
+        download_from_query( query_item, target_output_path )
     if extra_data:
         extra_files_path = ''.join( [ target_output_filename, 'files' ] )
         download_extra_data( extra_data, extra_files_path )
 
     """ the following code handles archives and decompress them in a collection """
-    check_ext = ""
-    if ( filename.endswith( "gz" ) ):
-        check_ext = "r:gz"
-    elif ( filename.endswith( "bz2" ) ):
-        check_ext = "r:bz2"
-    elif ( filename.endswith( "tar" ) ):
-        check_ext = "r:"
-    if ( bool( check_ext and check_ext.strip() ) ):
-        with tarfile.open( target_output_filename, check_ext ) as tf:
-            json_entries_data = "["
-            for entry in tf:
-                if entry.isfile():
-                    fileobj = tf.extractfile( entry )
-                    # reserve the underscore for the collection searator
-                    filename = os.path.basename( entry.name ).replace("_", "-")
-                    extension = splitext( filename )[1]
-                    extra_data = None
-                    # pattern: (?P&lt;archive_name&gt;.*)_(?P&lt;file_name&gt;.*)\..*
-                    filename_with_collection_prefix = query_item.get( 'name' ) + "_" + filename
-                    target_output_filename = os.path.join(appdata_path, filename_with_collection_prefix)
-
-                    store_file_from_archive( fileobj, target_output_filename )
-
-                    absolute_entry_path = os.path.abspath(target_output_filename)
-                    json_entries_data = json_entries_data + "{\"url\":\"file://"+absolute_entry_path+"\", \"name\":\""+filename_with_collection_prefix+"\", \"extension\":\""+extension+"\"}, "
-            
-            json_entries_data = json_entries_data.strip()[:-1] + "]"
-            json_entries_data_file_path = os.path.join(appdata_path, query_item.get( 'name' )+".json")
-            json_entries_data_absolute_file_path = os.path.abspath(json_entries_data_file_path)
-            store_file_from_archive( json_entries_data, json_entries_data_file_path, True )
-
-            download_from_json_data( options, args, json_params, json_entries_data_absolute_file_path, True )
+    if ( isArchive ):
+        walk_on_archive(target_output_path, check_ext, filename, appdata_path)
 
     return True
 
@@ -190,7 +196,7 @@ def set_up_config_values(json_params):
             hda_id, dataset_id)
 
 
-def download_from_json_data( options, args, json_params=None, json_dataset_url=None, primary=False ):
+def download_from_json_data( options, args ):
     """ Parse the returned JSON data and download files. Write metadata
     to flat JSON file.
     """
@@ -200,8 +206,7 @@ def download_from_json_data( options, args, json_params=None, json_dataset_url=N
         os.makedirs(appdata_path)
 
     # read tool job configuration file and parse parameters we need
-    if json_params is None:
-        json_params = json.loads( open( options.json_param_file, 'r' ).read() )
+    json_params = json.loads( open( options.json_param_file, 'r' ).read() )
     
     dataset_url, output_filename, \
         extra_files_path, file_name, \
@@ -212,12 +217,10 @@ def download_from_json_data( options, args, json_params=None, json_dataset_url=N
 
     # get JSON response from data source
     # TODO: make sure response is not enormous
-    if json_dataset_url is None:
-        query_params = json.loads(urllib.urlopen( dataset_url ).read())
-    else:
-        query_params = json.loads(urllib.urlopen( json_dataset_url ).read())
+    query_params = json.loads(urllib.urlopen( dataset_url ).read())
     # download and write files
     #primary = False
+    primary = True
     # query_item, hda_id, output_base_path, dataset_id
     for query_item in query_params:
         if isinstance( query_item, list ):

@@ -10,8 +10,8 @@
     </stdio>
     <command>
         <![CDATA[
-            mkdir -p tmpdir && 
-            python ${__tool_directory__}/json_data_source_mod.py "${__app__.config.output_size_limit}" --json_param_file "${output1}" --path "." --appdata "tmpdir"
+            mkdir -p tmp && 
+            python ${__tool_directory__}/json_data_source_mod.py "${__app__.config.output_size_limit}" --json_param_file "${output1}" --path "." --appdata "tmp"
         ]]>
     </command>
     <inputs check_values="False" action="http://bioinf.iasi.cnr.it/gdcwebapp/app.php" >
@@ -19,9 +19,9 @@
         <param name="URL" type="hidden" value="" />
     </inputs>
     <outputs>
-        <data name="output1" format="auto" />
+        <data name="output1" format="auto" label="${tool.name} Output Data" hidden="True" />
         <collection name="list_output" type="list:list" label="${tool.name} Output Collection">
-            <discover_datasets pattern="(?P&lt;archive_name&gt;)_(?P&lt;file_name&gt;)\..*" ext="auto" visible="True" directory="tmpdir" />
+            <discover_datasets pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)" ext="auto" visible="False" directory="tmp" />
         </collection>
     </outputs>
     <options sanitize="False" refresh="True" />
