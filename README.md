@@ -7,5 +7,5 @@ GDCWebApp is a web service to automatically query, filter, extract and convert g
 
 The service is available at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.iasi.cnr.it/gdcwebapp/)
 
-## Data Sources dev documentation
+## Galaxy Data Sources development documentation
 [https://galaxyproject.org/admin/internals/data-sources/](https://galaxyproject.org/admin/internals/data-sources/)
