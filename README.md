@@ -10,7 +10,7 @@ The service is available at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf
 ## Galaxy Data Sources development documentation
 [https://galaxyproject.org/admin/internals/data-sources/](https://galaxyproject.org/admin/internals/data-sources/)
 
-## Note
+## Notes
 This tool requires a patch of the 'async.py' module that is responsible of the management of asynchronous requests.
 The patch avoid the system to crash if a collection is defined as a possible output in the tool XML schema. 
 It also checks if only one output is defined (required for the async procedure). If more then one outputs are defined, it throws an exception.
