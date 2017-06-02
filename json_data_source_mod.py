@@ -105,7 +105,7 @@ def metadata_to_json( dataset_id, metadata, filename, ds_type='dataset', primary
     return "%s\n" % json.dumps( meta_dict )
 
 
-def walk_on_archive(target_output_filename, check_ext, archive_name, appdata_path):
+def walk_on_archive(target_output_filename, check_ext, archive_name, appdata_path, db_key="?"):
     archive_name = archive_name.replace("_", "-").replace(".", "-")
     with tarfile.open( target_output_filename, check_ext ) as tf:
         for entry in tf:
@@ -114,12 +114,12 @@ def walk_on_archive(target_output_filename, check_ext, archive_name, appdata_pat
                 # reserve the underscore for the collection searator
                 filename = os.path.basename( entry.name ).replace("_", "-")
                 extension = splitext( filename )[1]
-                # pattern: (?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)
+                # pattern: (?P<identifier_0>[^_]+)_(?P<identifier_1>[^_]+)_(?P<ext>[^_]+)_(?P<dbkey>[^_]+)
                 if (len(extension) > 0):
-                    filename = (filename[0:len(filename)-(len(extension)+1)]).replace(".", "-") + "." + extension
+                    filename = (filename[0:len(filename)-(len(extension)+1)]).replace(".", "-") + "." + extension + "_" + extension
                 else:
                     extension = "auto"
-                filename_with_collection_prefix = archive_name + "_" + filename
+                filename_with_collection_prefix = archive_name + "_" + filename + "_" + db_key
                 target_entry_output_filename = os.path.join(appdata_path, filename_with_collection_prefix)
                 store_file_from_archive( fileobj, target_entry_output_filename )
     return True
@@ -175,7 +175,14 @@ def download_files_and_write_metadata(query_item, json_params, output_base_path,
 
     """ the following code handles archives and decompress them in a collection """
     if ( isArchive ):
-        walk_on_archive(target_output_path, check_ext, filename, appdata_path)
+        db_key = "?"
+        archive_metadata = query_item.get( 'metadata', None )
+        if archive_metadata is not None:
+            try:
+                db_key = archive_metadata.get( 'db_key' )
+            except:
+                pass
+        walk_on_archive(target_output_path, check_ext, filename, appdata_path, db_key)
 
     return True
 
@@ -219,8 +226,8 @@ def download_from_json_data( options, args ):
     # TODO: make sure response is not enormous
     query_params = json.loads(urllib.urlopen( dataset_url ).read())
     # download and write files
-    #primary = False
-    primary = True
+    primary = False
+    #primary = True
     # query_item, hda_id, output_base_path, dataset_id
     for query_item in query_params:
         if isinstance( query_item, list ):
