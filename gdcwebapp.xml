@@ -16,6 +16,7 @@
     </command>
     <inputs check_values="False" action="http://bioinf.iasi.cnr.it/gdcwebapp/app.php">
         <display>Go to GDCWebApp service $GALAXY_URL</display>
+        <param name="GALAXY_URL" type="baseurl" value="/async/data_source_gdcwebapp" />
     </inputs>
     <outputs>
         <data name="output1" format="auto" label="${tool.name} Output Data" />
