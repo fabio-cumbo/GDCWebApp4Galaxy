@@ -19,10 +19,10 @@
         <param name="GALAXY_URL" type="baseurl" value="/async/data_source_gdcwebapp" />
     </inputs>
     <outputs>
-        <data name="output1" format="auto" label="${tool.name} Output Data" />
         <collection name="list_output" type="list:list" label="${tool.name} Output Collection">
             <discover_datasets pattern="(?P&lt;identifier_0&gt;[^_]+)_(?P&lt;identifier_1&gt;[^_]+)_(?P&lt;ext&gt;[^_]+)_(?P&lt;dbkey&gt;[^_]+)" ext="auto" visible="False" directory="tmp" />
         </collection>
+        <data name="output1" format="auto" label="${tool.name} Output Data" />
     </outputs>
     <options sanitize="False" refresh="True" />
 </tool>
