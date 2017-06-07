@@ -69,27 +69,21 @@ class ASync( BaseUIController ):
                 galaxy_url = params.get("GALAXY_URL", galaxy_url)
                 params = dict( URL=URL, GALAXY_URL=galaxy_url, name=data.name, info=data.info, dbkey=data.dbkey, data_type=data.ext )
                 
-                # PATCH by fabio
                 # Assume there is exactly one output file possible
                 TOOL_OUTPUT_TYPE = None
                 for idx, obj in enumerate(tool.outputs.values()):
                     try:
                         TOOL_OUTPUT_TYPE = obj.format
                         params[tool.outputs.keys()[idx]] = data.id
-                        log.debug("tool output key -> " + str(tool.outputs.keys()[idx]))
+                        #log.debug("tool output key -> " + str(tool.outputs.keys()[idx]))
                         break
                     except:
                         continue
                 if TOOL_OUTPUT_TYPE is None:
                     raise Exception( "Error: ToolOutput object not found" )
-                #log.debug("tool.outputs.keys() -> " + str(tool.outputs.keys()))
                 
-                '''
-                # old code
-                params[tool.outputs.keys()[0]] = data.id
-                '''
-
-                tool.execute( trans, incoming=params )
+                original_history = trans.sa_session.query( trans.app.model.History ).get( data.history_id )
+                tool.execute( trans, incoming=params, history=original_history )
             else:
                 log.debug('async error -> %s' % STATUS)
                 trans.log_event( 'Async error -> %s' % STATUS )
@@ -109,7 +103,6 @@ class ASync( BaseUIController ):
             elif params.galaxyFileFormat == 'wig':  # this is an undocumented legacy special case
                 GALAXY_TYPE = 'wig'
             else:
-                # PATCH by fabio
                 # Assume there is exactly one output
                 outputs_count = 0
                 for obj in tool.outputs.values():
@@ -122,13 +115,7 @@ class ASync( BaseUIController ):
                         continue
                 if outputs_count > 1:
                     raise Exception( "Error: the tool should have just one output" )
-                
-                '''
-                # old code
-                GALAXY_TYPE = params.GALAXY_TYPE  or  tool.outputs.values()[0].format
-                '''
-
-            # PATCH fabio
+                                
             if GALAXY_TYPE is None:
                 raise Exception( "Error: ToolOutput object not found" )
 

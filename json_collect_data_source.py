@@ -214,6 +214,7 @@ def download_from_json_data( options, args ):
 
     # read tool job configuration file and parse parameters we need
     json_params = json.loads( open( options.json_param_file, 'r' ).read() )
+    print("json_params: "+str(json_params))
     
     dataset_url, output_filename, \
         extra_files_path, file_name, \
