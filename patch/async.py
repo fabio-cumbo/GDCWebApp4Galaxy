@@ -75,9 +75,9 @@ class ASync( BaseUIController ):
                     try:
                         TOOL_OUTPUT_TYPE = obj.format
                         params[tool.outputs.keys()[idx]] = data.id
-                        #log.debug("tool output key -> " + str(tool.outputs.keys()[idx]))
                         break
                     except:
+                        # exclude outputs different from ToolOutput (e.g. collections) from the previous assumption
                         continue
                 if TOOL_OUTPUT_TYPE is None:
                     raise Exception( "Error: ToolOutput object not found" )
@@ -111,7 +111,7 @@ class ASync( BaseUIController ):
                         outputs_count += 1
                         break
                     except:
-                        # exclude outputs different from ToolOutput (i.e. collections) from the previous assumption
+                        # exclude outputs different from ToolOutput (e.g. collections) from the previous assumption
                         continue
                 if outputs_count > 1:
                     raise Exception( "Error: the tool should have just one output" )
