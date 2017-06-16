@@ -125,7 +125,7 @@ When the job will be completed, two files will be created in the history. Both o
 
 ---
 
-It will be also created a list of collections containing the data requested on GDCWebApp (i.e. the output of the [Step 2](https://test/)). Considering the previous example, ```Data Set 1 [GDC]``` will contains the original Masked Somatic Mutation data as MAF files retrieved from GDC, and ```Data Set 1 [BED]``` will contains the same data in ```Data Set 1 [GDC]``` converted in BED format.
+It will be also created a list of collections containing the data requested on GDCWebApp (i.e. the output of the [Step 2](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/blob/master/README.md#step-2-play-with-gdcwebapp)). Considering the previous example, ```Data Set 1 [GDC]``` will contains the original Masked Somatic Mutation data as MAF files retrieved from GDC, and ```Data Set 1 [BED]``` will contains the same data in ```Data Set 1 [GDC]``` converted in BED format.
 
 ![List of Collections](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.3.png "List of Collections")
 
