@@ -96,7 +96,7 @@ Clicking on the GDCWebApp entry under the tools menu, the user will be automatic
 In this particular example, the output of this query will consists of two compressed archives containing respectively:
 1. the original Masked Somatic Mutation experiments extracted from GDC;
 2. a list of BED files corresponding to the original data, one for each experiment.
-It is worth noting that, in this particular example, all the experiments contained in these archives are related to MALE patients with BLACK OR AFRICAN AMERICAN race.
+It is worth noting that, in this particular example, all the experiments contained in these archives are related to MALE patients based on the filter selection.
 
 Please refer to the following link for a detailed documentation about clinical and biospecimen attributes:
 - [https://gdc.cancer.gov/clinical-data-elements](https://gdc.cancer.gov/clinical-data-elements)
@@ -110,7 +110,7 @@ This job could requires some minutes to complete, it depends on the number of da
 ![Job running](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step3.png "Job running")
 
 #### [Step 4]: GDCWebApp Job Tracker
-While the job is running we could monitor its progress using the GDCWebApp Job Tracker bu submitting the Job Key on the official [GDCWebApp page](http://bioinf.iasi.cnr.it/gdcwebapp/). The user will be redirected to the tracking page in which the current status of the job is reported.
+While the job is running we could monitor its progress using the GDCWebApp Job Tracker by submitting the Job Key on the official [GDCWebApp](http://bioinf.iasi.cnr.it/gdcwebapp/) page. The user will be redirected to the tracking page in which the current status of the job is reported.
 
 ![GDCWebApp Job Tracking](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step4.png "GDCWebApp Job Tracking")
 
@@ -119,15 +119,9 @@ When the job will be completed, two files will be created in the history. Both o
 
 ![GDCWebApp results in Galaxy History](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.1.png "GDCWebApp results in Galaxy History")
 
----
-
-![Human-readable request overview](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.2.png "Human-readable request overview")
-
----
-
 It will be also created a list of collections containing the data requested on GDCWebApp (i.e. the output of the [Step 2](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/blob/master/README.md#step-2-play-with-gdcwebapp)). Considering the previous example, ```Data Set 1 [GDC]``` will contains the original Masked Somatic Mutation data as MAF files retrieved from GDC, and ```Data Set 1 [BED]``` will contains the same data in ```Data Set 1 [GDC]``` converted in BED format.
 
-![List of Collections](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.3.png "List of Collections")
+![List of Collections](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.2.png "List of Collections")
 
 ## GDCWebApp availability
 The service is online at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.iasi.cnr.it/gdcwebapp/)
