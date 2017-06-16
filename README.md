@@ -93,7 +93,7 @@ Clicking on the GDCWebApp entry under the tools menu, the user will be automatic
 
 ![Play with GDCWebApp](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step2.png "Play with GDCWebApp")
 
-In this particular example, the output of this query will consists of two compressed archives contained respectively:
+In this particular example, the output of this query will consists of two compressed archives containing respectively:
 1. the original Masked Somatic Mutation experiments extracted from GDC;
 2. a list of BED files corresponding to the original data, one for each experiment.
 It is worth noting that, in this particular example, all the experiments contained in these archives are related to MALE patients with BLACK OR AFRICAN AMERICAN race.
