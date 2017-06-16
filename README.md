@@ -132,7 +132,7 @@ It will be also created a list of collections containing the data requested on G
 ## GDCWebApp availability
 The service is online at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.iasi.cnr.it/gdcwebapp/)
 
-## Galaxy Data Sources development documentation
+## Galaxy asynchronous Data Sources development documentation
 [https://galaxyproject.org/admin/internals/data-sources/#asynchronous-data-depositing](https://galaxyproject.org/admin/internals/data-sources/#asynchronous-data-depositing)
 
 ## Notes
