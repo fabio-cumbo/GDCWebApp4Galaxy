@@ -132,7 +132,9 @@ The service is online at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.ia
 [https://galaxyproject.org/admin/internals/data-sources/#asynchronous-data-depositing](https://galaxyproject.org/admin/internals/data-sources/#asynchronous-data-depositing)
 
 ## Notes
-This tool requires a patch of the ```async.py``` module that is responsible of the management of asynchronous requests.
+It is worth noting that the Galaxy instance in which this tool will be installed has to be reachable from a public domain address. It can not work on a local Galaxy instance due to the asynchronous nature of the tool.
+
+Additionally, this tool requires a patch of the ```async.py``` module that is responsible of the management of asynchronous requests.
 The patch avoid the system to crash if a collection is defined as a possible output in the tool XML schema in the case of asynchronous data sources. 
 It also checks if only one output is defined (required for the async procedure). If more then one outputs are defined (except for collections), it throws an exception.
 
