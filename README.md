@@ -3,7 +3,7 @@ This project contains the XML structure of the GDCWebApp asynchronous Data Sourc
 It is also available on the Galaxy ToolShed under the name [gdcwebapp](https://toolshed.g2.bx.psu.edu/view/fabio/gdcwebapp/7f55f83f72da).
 
 ## What is GDCWebApp
-GDCWebApp is a web service to automatically query, filter, extract and convert genomic data and clinical information from the [Genomic Data Commons portal](https://gdc.cancer.gov/) (GDC) to BED format. It is able to operate on all data types for each tumor and program available on GDC.
+GDCWebApp is a web service to automatically query, filter, extract and convert genomic data and clinical information from the [Genomic Data Commons portal](https://gdc.cancer.gov/) (GDC) to BED, GTF, CSV, and JSON format. It is able to operate on all data types for each tumor and program available on GDC.
 
 GDC hosts genomic experiments about patients affected by different kinds of tumors. These are organized in two main constantly updated programs:
 1. TCGA: The Cancer Genome Atlas
@@ -91,7 +91,7 @@ Clicking on the GDCWebApp entry under the tools menu, the user will be automatic
 
 In this particular example, the output of this query will consists of two compressed archives containing respectively:
 1. the original Masked Somatic Mutation experiments extracted from GDC;
-2. a list of BED files corresponding to the original data, one for each experiment.
+2. a list of converted files (in the specified format) corresponding to the original data, one for each experiment.
 It is worth noting that, in this particular example, all the experiments contained in these archives are related to MALE patients based on the filter selection.
 
 Please refer to the following link for a detailed documentation about clinical and biospecimen attributes:
@@ -103,7 +103,7 @@ Please refer to the following link for a detailed documentation about clinical a
 
 #### [Step 3]: Return to Galaxy
 Clicking on the ```Submit to Galaxy``` button, the user will be redirected to his Galaxy instance in which will be automatically created a job that will continue to rum until GDCWebApp will communicate to Galaxy that the requested data sets are ready to be downloaded.
-This job could requires some minutes to complete, it depends on the number of data sets requested on GDCWebApp. These data sets have to to be downloaded from GDC and, optionally, converted to BED. This is the reason why the procedure is asynchronous.
+This job could requires some minutes to complete, it depends on the number of data sets requested on GDCWebApp. These data sets have to to be downloaded from GDC and, optionally, converted to the previously specified format. This is the reason why the procedure is asynchronous.
 
 > ![Job running](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step3.png "Job running")
 
@@ -143,4 +143,3 @@ Please check the status of this pull request to know if it is already available 
 [https://github.com/galaxyproject/galaxy/pull/4198](https://github.com/galaxyproject/galaxy/pull/4198)
 
 Alternatively, you can apply the patch replacing the ```async.py``` file under the folder ```/lib/galaxy/webapps/galaxy/controllers/``` starting from the root folder of your Galaxy instance.
-
