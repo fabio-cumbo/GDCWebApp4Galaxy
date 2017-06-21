@@ -3,7 +3,7 @@ This project contains the XML structure of the GDCWebApp asynchronous Data Sourc
 It is also available on the Galaxy ToolShed under the name [gdcwebapp](https://toolshed.g2.bx.psu.edu/view/fabio/gdcwebapp/7f55f83f72da).
 
 ## What is GDCWebApp
-GDCWebApp is a web service to automatically query, filter, extract and convert genomic data and clinical information from the [Genomic Data Commons portal](https://gdc.cancer.gov/) (GDC) to BED, GTF, CSV, and JSON format. It is able to operate on all data types for each tumor and program available on GDC.
+GDCWebApp is a web service to automatically query, filter, extract and convert genomic data and clinical information from the [Genomic Data Commons portal](https://gdc.cancer.gov/) (GDC) to **BED**, **GTF**, **CSV**, and **JSON** format. It is able to operate on all data types for each tumor and program available on GDC.
 
 GDC hosts genomic experiments about patients affected by different kinds of tumors. These are organized in two main constantly updated programs:
 1. TCGA: The Cancer Genome Atlas
