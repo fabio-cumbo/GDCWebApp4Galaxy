@@ -127,7 +127,7 @@ It will be also created a list of collections containing the data requested on G
 
 ## GDCWebApp dependencies
 - python 2.7
-- json_collect_data_source 1.0.0 BioConda package
+- [json_collect_data_source 1.0.0](https://github.com/bioconda/bioconda-recipes/tree/master/recipes/json-collect-data-source) BioConda package
 
 ## GDCWebApp availability
 The service is online at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.iasi.cnr.it/gdcwebapp/)
