@@ -125,6 +125,10 @@ It will be also created a list of collections containing the data requested on G
 
 > ![List of Collections](https://github.com/fabio-cumbo/GDCWebApp4Galaxy/raw/master/images/gdcwebapp_step5.2.png "List of Collections")
 
+## GDCWebApp dependencies
+- python 2.7
+- json_collect_data_source 1.0.0 BioConda package
+
 ## GDCWebApp availability
 The service is online at [http://bioinf.iasi.cnr.it/gdcwebapp/](http://bioinf.iasi.cnr.it/gdcwebapp/)
 
