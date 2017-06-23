@@ -9,7 +9,11 @@
         <exit_code range="1:" />
         <exit_code range=":-1" />
     </stdio>
-    <command>json_collect_data_source.py '${__app__.config.output_size_limit}' --json_param_file '${output1}' --path '.' --appdata 'tmp'</command>
+    <command>
+<![CDATA[
+    python '$__tool_directory__/jcds_wrapper.py' '${__app__.config.output_size_limit}' --json_param_file '${output1}' --path '.' --appdata 'tmp'
+]]>
+    </command>
     <inputs check_values="False" action="http://bioinf.iasi.cnr.it/gdcwebapp/app.php">
         <display>Go to GDCWebApp service $GALAXY_URL</display>
         <param name="GALAXY_URL" type="baseurl" value="/async/data_source_gdcwebapp" />
